@@ -14,6 +14,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                             
     @IBOutlet weak var tableView: UITableView!
     
+    var commandlist:[Command] = []
+    
+    func addCommand(name:String, body:() -> Void = {}){
+        commandlist.append(Command(name:name, body:body))
+    }
+
      //UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,13 +36,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Dispose of any resources that can be recreated.
     }
 
-    
-    var commandlist:[Command] = []
-    
-    func addCommand(name:String, body:() -> Void = {}){
-        commandlist.append(Command(name:name, body:body))
-    }
-    
     func changeMainList() {
         
         commandlist.removeAll(keepCapacity: false)
@@ -51,11 +50,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         addCommand("処理B(サブリストBへ)",body:{
             self.changeSublistB()
         })
-        
-        addCommand("処理C(サブリストCへ)",body:{
-            self.changeSublistC()
-        })
-        
+
         self.tableView.reloadData()
     }
     
@@ -63,24 +58,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func changeSublistB() {
         commandlist.removeAll(keepCapacity: false)
         
-        addCommand("サブリストB　[1項目]", body:{
-            var alert = UIAlertView()
-            alert.message = "ここサブリストB[1項目]の実装"
-            alert.addButtonWithTitle("OK")
-            alert.show()
-        })
+        addCommand("サブリストB　[1項目]", body:{/*クリックしても特に何もしない*/})
         
-        addCommand("サブリストB　[2項目]", body:{
-            var alert = UIAlertView()
-            alert.message = "ここサブリストB[2項目]の実装"
-            alert.addButtonWithTitle("OK")
-            alert.show()
-        })
-        
-        addCommand("サブリストCへ", body:{
-            self.changeSublistC()
-        })
-        
+        addCommand("サブリストB　[2項目]", body:{/*クリックしても特に何もしない*/})
         
         addCommand("戻る", body:{
             self.changeMainList()
@@ -88,36 +68,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         self.tableView.reloadData()
     }
-    
-    func changeSublistC() {
-        commandlist.removeAll(keepCapacity: false)
-        
-        addCommand("サブリストC　[1項目]", body:{
-            self.changeSublistD()
-        })
-        
-        addCommand("戻る", body:{
-            self.changeMainList()
-        })
-        
-        self.tableView.reloadData()
-    }
- 
-    func changeSublistD() {
-        commandlist.removeAll(keepCapacity: false)
 
-        addCommand("データ1", body:{/*クリックしても特に何もしない*/})
-        addCommand("データ2", body:{/*クリックしても特に何もしない*/})
-        addCommand("データ3", body:{/*クリックしても特に何もしない*/})
-        
-        addCommand("メインリストへ戻る", body:{
-            self.changeMainList()
-        })
-        
-        self.tableView.reloadData()
-    }
-    
-    
     //UITableViewDataSource
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
         return commandlist.count
